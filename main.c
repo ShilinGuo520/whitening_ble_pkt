@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "stdint.h"
+#include "string.h"
 
 int main()
 {
@@ -9,10 +10,11 @@ int main()
 	uint8_t whitening[7] = {0};
 	uint8_t data_bit[24 * 8] = {0};
 	uint8_t whitening_data[24*8] = {0};
+	uint8_t data_len = 5;
 	uint8_t temp = 0;
 	uint32_t i,j;
 
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < data_len; i++)
 	{
 		for (j = 0; j < 8; j++)
 		{
@@ -21,7 +23,7 @@ int main()
 	}
 
 	printf("Raw data:");
-	for(i = 0; i < 40; i++)
+	for(i = 0; i < (data_len * 8); i++)
 	{
 		if (!(i%8))
 			printf("\r\n");
@@ -48,7 +50,7 @@ int main()
 	}
 	printf("\r\n");
 
-	for (i = 0; i < 5*8; i++)
+	for (i = 0; i < (data_len * 8); i++)
 	{
 		whitening_data[i] = data_bit[i] ^ whitening[6];
 		whitening[3] = whitening[3] ^ whitening[6];
@@ -63,7 +65,9 @@ int main()
 	}
 
 	printf("\r\nWhitening Data:");
-	for(i = 0; i < 40; i++)
+
+	memset(w_data, 0, 25);
+	for(i = 0; i < (data_len * 8); i++)
 	{
 		if(!(i%8))
 			printf("\r\n");
